@@ -1,5 +1,6 @@
 package com.omelenko.todo.todo;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -46,7 +47,8 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.PostViewHolder
     @Override
     public int getItemCount() {
         List<Todo> test = viewModel.getTodos();
-        return test.size();
+        //Log.d(TodoAdapter.class.getSimpleName(), "test.get(0).getTitle() = " + test.get(0).getTitle());
+        return 0;// test.size();
     }
 
     public class PostViewHolder extends RecyclerView.ViewHolder {

@@ -11,11 +11,12 @@ public class ApiCallBackImplForLists implements ApiCallBack{
     public List<Todo> passTodos;
     @Override
     public void onSuccess(List<Todo> todos) {
-        synchronized (App.lock)
+        /*synchronized (App.lock)
         {
             passTodos = todos;
             App.lock.notify();
-        }
+        }*/
+        passTodos = todos;
         Log.d(ApiCallBackImplForLists.class.getSimpleName(), "passTodo title: " + passTodos.get(0).getTitle());
     }
 

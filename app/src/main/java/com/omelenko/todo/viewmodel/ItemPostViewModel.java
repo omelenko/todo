@@ -27,55 +27,88 @@ public class ItemPostViewModel extends AndroidViewModel {
         super(application);
     }
 
+    /// З використанням нового потоку
+
     public List<Todo> getTodos()
     {
-        final List<Todo>[] passTodo = new List[1];
-        //ApiCallBackImplForLists testCallBack = new ApiCallBackImplForLists();
-        ApiCallBack testCallBack = new ApiCallBack() {
-            @Override
-            public void onSuccess(List<Todo> todos) {
-                Log.d(ItemPostViewModel.class.getSimpleName(), "onsuccess is happening");
-                synchronized (App.lock)
-                {
-                    passTodo[0] = todos;
-                    Log.d(ItemPostViewModel.class.getSimpleName(), "onsuccess notify is happening");
-                    App.lock.notify();
-                    Log.d(ItemPostViewModel.class.getSimpleName(), "onsuccess notify happened");
-                }
-
-                Log.d(ItemPostViewModel.class.getSimpleName(), "onsuccess has happened");
-            }
-
-            @Override
-            public void onSuccess(Todo todo) {
-
-            }
-
-            @Override
-            public void onFailure() {
-                Log.d(ItemPostViewModel.class.getSimpleName(), "onfailure has happened");
-            }
-        };
+        ApiCallBackImplForLists testCallBack = new ApiCallBackImplForLists();
         Log.d(ItemPostViewModel.class.getSimpleName(), "repository.getAllTodos is about to happen");
-        repository.getAllTodos(testCallBack);
-        Log.d(ItemPostViewModel.class.getSimpleName(), "repository.getAllTodos is happening");
-        try
-        {
-            synchronized (App.lock)
-            {
-                //while(testCallBack.getPassTodos() == null)
-                while(passTodo[0] == null)
-                {
-                    App.lock.wait();
-                }
-            }
+        Thread T1 = new Thread(() -> repository.getAllTodos(testCallBack));
+        T1.start();
+        try {
+            T1.join();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        //return testCallBack.getPassTodos();
-        return passTodo[0];
-        //Log.d(ApiCallBack.class.getSimpleName(), "testcallback = " + testCallBack.returnData().get(0).getTitle());
+        Log.d(ItemPostViewModel.class.getSimpleName(), "repository.getAllTodos is happening");
+        return testCallBack.getPassTodos();
     }
+
+    /// З використанням кастомного ApiCallBack
+
+//    public List<Todo> getTodos()
+//    {
+//        final List<Todo>[] passTodo = new List[1];
+//        ApiCallBack testCallBack = new ApiCallBack() {
+//            @Override
+//            public void onSuccess(List<Todo> todos) {
+//                synchronized (App.lock)
+//                {
+//                    passTodo[0] = todos;
+//                    App.lock.notify();
+//                }
+//            }
+//
+//            @Override
+//            public void onSuccess(Todo todo) {
+//
+//            }
+//
+//            @Override
+//            public void onFailure() {
+//
+//            }
+//        };
+//        Log.d(ItemPostViewModel.class.getSimpleName(), "repository.getAllTodos is about to happen");
+//        repository.getAllTodos(testCallBack);
+//        Log.d(ItemPostViewModel.class.getSimpleName(), "repository.getAllTodos is happening");
+//        try
+//        {
+//            synchronized (App.lock)
+//            {
+//                while(passTodo[0] == null)
+//                {
+//                    App.lock.wait();
+//                }
+//            }
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return passTodo[0];
+//    }
+
+    /// З використанням ApiCallBackImplForLists ///
+
+//    public List<Todo> getTodos()
+//    {
+//        ApiCallBackImplForLists testCallBack = new ApiCallBackImplForLists();
+//        Log.d(ItemPostViewModel.class.getSimpleName(), "repository.getAllTodos is about to happen");
+//        repository.getAllTodos(testCallBack);
+//        Log.d(ItemPostViewModel.class.getSimpleName(), "repository.getAllTodos is happening");
+//        try
+//        {
+//            synchronized (App.lock)
+//            {
+//                while(testCallBack.getPassTodos() == null)
+//                {
+//                    App.lock.wait();
+//                }
+//            }
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return testCallBack.getPassTodos();
+//    }
 
     public Todo getTodoById(int position)
     {
