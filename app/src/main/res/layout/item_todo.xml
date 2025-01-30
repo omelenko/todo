@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="todo"
+            type="com.omelenko.todo.todo.Todo" />
+        <variable
+            name="viewModel"
+            type="com.omelenko.todo.viewmodel.ItemPostViewModel" />
+    </data>
+
+    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_view_userId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/todo_user_id"/>
+
+            <TextView
+                android:id="@+id/text_view_zero"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{todo.userId}"/>
+
+            <TextView
+                android:id="@+id/text_view_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/todo_id"/>
+
+            <TextView
+                android:id="@+id/text_view_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{todo.id}"/>
+
+            <TextView
+                android:id="@+id/text_view_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/todo_title"/>
+
+            <TextView
+                android:id="@+id/text_view_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{todo.title}"/>
+
+            <TextView
+                android:id="@+id/text_view_body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/todo_completed"/>
+
+            <TextView
+                android:id="@+id/text_view_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{todo.completed}"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="?android:attr/buttonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/edit_button"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:text="@string/edit"
+                android:onClick="@{() -> viewModel.editButton_onClick(viewModel.getTodoId(todo))}"
+                tools:ignore="ButtonStyle" />
+
+            <Button
+                android:id="@+id/remove_button"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:text="@string/delete"
+                android:onClick="@{() -> viewModel.deleteButton_onClick(viewModel.getTodoId(todo))}"
+                tools:ignore="ButtonStyle" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

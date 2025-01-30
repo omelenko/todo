@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">todo</string>
+    <string name="title">Додаток для роботи з to-do списком</string>
+    <string name="add_button">Додати to-do</string>
+    <string name="todo_user_id">Ід користувача:</string>
+    <string name="todo_id">Ід:</string>
+    <string name="todo_title">Назва:</string>
+    <string name="todo_completed">Виконано:</string>
+    <string name="edit">Редагувати</string>
+    <string name="delete">Видалити</string>
+</resources>
